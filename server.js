@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const colors = require("colors");
 const passport = require("passport");
 const passportSetup = require("./routes/passport");
+const pinRoute = require("./routes/pins");
 
 const userRoutes = require("./routes/userRoutes");
 const cors = require("cors");
@@ -46,6 +47,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api/todo", pinRoute);
 
 app.use("/auth", authRoute);
 

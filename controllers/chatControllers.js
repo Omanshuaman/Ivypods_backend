@@ -1,14 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const Pin = require("../models/pin");
-const JoinPin = require("../models/joinpins");
 
 const renameGroup = asyncHandler(async (req, res) => {
-  const { chatId, chatName } = req.body;
+  const { chatId, chatName, chatPhoneNumber } = req.body;
 
   const updatedChat = await Pin.findByIdAndUpdate(
     chatId,
     {
-      pic: chatName,
+      Name: chatName,
+      PhoneNumber: chatPhoneNumber,
     },
     {
       new: true,
@@ -23,6 +23,17 @@ const renameGroup = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteGroup = asyncHandler(async (req, res) => {
+  const { chatId } = req.body;
+  const deletedChat = await Pin.findByIdAndDelete(chatId);
+
+  if (!deletedChat) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.json({ message: "Chat Group deleted successfully" });
+  }
+});
 const renameGroupLink = asyncHandler(async (req, res) => {
   const { chatId, chatName } = req.body;
 
@@ -142,4 +153,5 @@ module.exports = {
   allMessages,
   renameTournament,
   fetchParticpantDetail,
+  deleteGroup,
 };
